@@ -37,6 +37,7 @@ we create an empty one in the form of an array before continuing */
     res.redirect('/todo');
 })
 
+/* Edit an item in the to do list */
 .get('/todo/edit/:id', function(req, res) {
     if (req.params.id != '') {
       res.render('todo.ejs', {todolist: req.session.todolist, id: req.params.id, editTodo: req.session.todolist[req.params.id]});
