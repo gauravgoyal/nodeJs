@@ -1,0 +1,30 @@
+{
+  "name": "exercise_1",
+  "version": "1.0.0",
+  "description": "Show youtube metadata information",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js https://www.youtube.com/watch?v=TrPvQvbp3Cg"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gauravgoyal/nodeJs.git"
+  },
+  "keywords": [
+    "Basics",
+    "First",
+    "Day",
+    "Nodejs",
+    "Beginner"
+  ],
+  "author": "Gaurav Goyal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gauravgoyal/nodeJs/issues"
+  },
+  "homepage": "https://github.com/gauravgoyal/nodeJs#readme",
+  "dependencies": {
+    "get-youtube-id": "^1.0.0",
+    "youtube-info": "^1.1.1"
+  }
+}
