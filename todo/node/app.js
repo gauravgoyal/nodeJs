@@ -3,7 +3,7 @@ var session = require('cookie-session'); // Loads the piece of middleware for se
 var bodyParser = require('body-parser'); // Loads the piece of middleware for managing the settings
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var services = require('./services');
-var baseUrl = 'http://todolist.dd:8083/';
+var baseUrl = 'http://dev.ggoyal.co.in/';
 
 var app = express();
 

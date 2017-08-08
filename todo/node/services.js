@@ -1,5 +1,5 @@
 var http = require('http');
-var username = 'admin1';
+var username = 'todo_admin';
 var password = 'admin';
 var auth = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
 
@@ -27,8 +27,7 @@ exports.get = function(get_url, callback) {
 exports.createTodo = function(endpoint, method, data, callback) {
   var postData = JSON.stringify(data);
   var options = {
-    'host': 'todolist.dd',
-    'port': 8083,
+    'host': 'dev.ggoyal.co.in',
     'path': endpoint,
     'method': method,
     'headers': {
