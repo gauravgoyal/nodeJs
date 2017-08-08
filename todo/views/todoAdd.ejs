@@ -8,11 +8,14 @@
   <% var title = description = '' %>
   <% if (typeof(data) !== 'undefined' && data.title[0].value) { %>
     <% title = data.title[0].value %>
+    <h1>Edit <%- title %> Item</h1>
+  <% } else {%>
+    <h1>Add Todo Item</h1>
   <% } %>
-  <% if (typeof(data) !== 'undefined' && data.body[0].value) { %>
+  <% if (typeof(data) !== 'undefined' && typeof(data.body) !== 'undefined' ) { %>
     <% description = data.body[0].value %>
   <% } %>
-  <h1>Add task</h1>
+
   <div class="add-new">
     <div><a class="action-link" href="/todo">Todo List</a></div>
   </div>

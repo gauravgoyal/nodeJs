@@ -109,4 +109,4 @@ app.use(session({secret: 'todotopsecret'}))
   }
 })
 
-.listen(8080);
+.listen(process.env.PORT || process.argv[2]);
