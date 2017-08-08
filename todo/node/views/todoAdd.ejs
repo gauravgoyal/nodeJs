@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Task</title>
+</head>
+<body>
+  <% var title = description = '' %>
+  <h1>Add task</h1>
+  <% if (data.title[0].value) { %>
+    <% title = data.title[0].value %>
+  <% } %>
+  <% if (data.body[0].value) { %>
+    <% description = data.body[0].value %>
+  <% } %>
+
+  <form action="/todo/add" method="post" id="add-task-form">
+    <div class="title">
+      <label>Title</label>
+      <input type="text" name="title" placeholder="Enter your task here" value="<%- title %>">
+    </div>
+    <div class="description">
+      <label>Description</label>
+      <textarea form="add-task-form" name="description" rows="4" cols="50" placeholder="Enter description"><%- description %></textarea>
+    </div>
+      <div class="status">
+        <label>Status</label>
+        <% if (data.field_status[0].value) { %>
+          <input type="checkbox" name="status" checked>
+        <% } else { %>
+          <input type="checkbox" name="status">
+        <% } %>
+      </div>
+    <%if (typeof(data.nid) !== 'undefined') {%>
+      <input type="hidden" name="key" id="key" value="<%- data.nid[0].value %>" />
+    <% } %>
+    <div class="submit-form">
+      <input type="submit" value="Submit">
+    </div>
+  </form>
+</body>
+</html>

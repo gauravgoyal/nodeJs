@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Todo App</title>
+</head>
+<body>
+
+  <h1>Todo List</h1>
+  <div>
+    <div><a href="/todo/add-task">Add New Task</a></div>
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Item</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Operations</th>
+    </tr>
+    <% todolist.forEach(function(todo, index) { %>
+      <tr class="<%- todo.id %> todo-item">
+        <td><%- todo.id %></td>
+        <td><%- todo.title %></td>
+        <td><%- todo.body %></td>
+        <td><%- todo.status %></td>
+        <td><a href="/todo/edit/<%- todo.id %>">Edit </a><a href="/todo/delete/<%- todo.id %>">Delete </a></td>
+        <% }); %>
+  </tr>
+</table>
+</body>
+</html>

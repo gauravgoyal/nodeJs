@@ -2,10 +2,13 @@
   "name": "my-todolist",
   "version": "0.1.0",
   "dependencies": {
-    "express": "~4.11.0",
-    "ejs": "~2.1.4",
+    "body-parser": "~1.10.1",
     "cookie-session": "~1.1.0",
-    "body-parser": "~1.10.1"
+    "ejs": "~2.1.4",
+    "express": "~4.11.0",
+    "http": "0.0.0",
+    "mongodb": "^2.2.30",
+    "mysql": "^2.14.1"
   },
   "author": "Mateo21 <mateo21@email.com>",
   "description": "A very basic to do list manager"
