@@ -2,40 +2,45 @@
 <html>
 <head>
   <title>Add Task</title>
+  <link rel="stylesheet" type="text/css" href="/css/form.css">
 </head>
 <body>
   <% var title = description = '' %>
-  <h1>Add task</h1>
-  <% if (data.title[0].value) { %>
+  <% if (typeof(data) !== 'undefined' && data.title[0].value) { %>
     <% title = data.title[0].value %>
   <% } %>
-  <% if (data.body[0].value) { %>
+  <% if (typeof(data) !== 'undefined' && data.body[0].value) { %>
     <% description = data.body[0].value %>
   <% } %>
-
-  <form action="/todo/add" method="post" id="add-task-form">
-    <div class="title">
-      <label>Title</label>
-      <input type="text" name="title" placeholder="Enter your task here" value="<%- title %>">
-    </div>
-    <div class="description">
-      <label>Description</label>
-      <textarea form="add-task-form" name="description" rows="4" cols="50" placeholder="Enter description"><%- description %></textarea>
-    </div>
-      <div class="status">
-        <label>Status</label>
-        <% if (data.field_status[0].value) { %>
-          <input type="checkbox" name="status" checked>
-        <% } else { %>
-          <input type="checkbox" name="status">
-        <% } %>
+  <h1>Add task</h1>
+  <div class="add-new">
+    <div><a class="action-link" href="/todo">Todo List</a></div>
+  </div>
+  <div class="outer-wrapper container">
+    <form action="/todo/add" method="post" id="add-task-form" class="form-style-5">
+      <div class="group">
+        <label>Title</label>
+        <input type="text" name="title" value="<%- title %>" required>
       </div>
-    <%if (typeof(data.nid) !== 'undefined') {%>
-      <input type="hidden" name="key" id="key" value="<%- data.nid[0].value %>" />
-    <% } %>
-    <div class="submit-form">
-      <input type="submit" value="Submit">
-    </div>
-  </form>
+      <div class="description group">
+        <label>Description</label>
+        <textarea form="add-task-form" name="description" rows="4" cols="50"><%- description %></textarea>
+      </div>
+        <div class="status group">
+          <label>Status</label>
+          <% if (typeof(data) !== 'undefined' && data.field_status[0].value) { %>
+            <input type="checkbox" name="status" checked>
+          <% } else { %>
+            <input type="checkbox" name="status">
+          <% } %>
+        </div>
+      <%if (typeof(data) !== 'undefined' && typeof(data.nid) !== 'undefined') {%>
+        <input type="hidden" name="key" id="key" value="<%- data.nid[0].value %>" />
+      <% } %>
+      <div class="submit-form">
+        <input type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
 </body>
 </html>

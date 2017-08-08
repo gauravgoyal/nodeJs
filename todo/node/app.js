@@ -24,7 +24,7 @@ app.use(session({secret: 'todotopsecret'}))
 
 /* Adding an item to the to do list */
 .post('/todo/add/', urlencodedParser, function(req, res) {
-  var endpoint = 'entity/node';
+  var endpoint = '/entity/node';
   var method = 'POST';
   if (req.body.title) {
     var data = {
@@ -56,9 +56,9 @@ app.use(session({secret: 'todotopsecret'}))
       data._links.self = {
         'href' : baseUrl + 'node/' + req.body.key + '?_format=hal_json'
       }
+      endpoint = baseUrl + 'node/' + req.body.key + '?_format=hal_json';
+      method = 'PATCH';
     }
-    endpoint = baseUrl + 'node/' + req.body.key + '?_format=hal_json';
-    method = 'PATCH';
     services.createTodo(endpoint, method, data, redirect);
   }
   function redirect(data) {
