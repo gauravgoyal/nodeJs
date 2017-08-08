@@ -1,0 +1,90 @@
+body {
+  padding: 0 2em;
+  font-family: Arial, sans-serif;
+  color: #024457;
+  background: #f2f2f2;
+}
+
+h1 {
+  text-align: center;
+}
+
+.add-new {
+  text-align: right;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.responstable {
+  margin: 1em auto;
+  width: 70%;
+  overflow: hidden;
+  background: #fff;
+  color: #024457;
+  border-radius: 10px;
+  border: 1px solid #167f92;
+}
+
+.responstable tr {
+  border: 1px solid #d9e4e6;
+}
+
+.responstable tr:nth-child(odd) {
+  background-color: #eaf3f3;
+}
+
+.responstable th:first-child {
+  display: table-cell;
+  text-align: center;
+}
+
+.responstable th:nth-child(2) {
+  display: table-cell;
+}
+
+.responstable td:first-child {
+  display: table-cell;
+  text-align: center;
+  border-right: 1px solid #d9e4e6;
+}
+
+
+.responstable th,
+.responstable td {
+  text-align: left;
+  margin: .5em 1em;
+  display: table-cell;
+  padding: 1em;
+}
+
+.edit,
+.delete {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.responstable td {
+  border: 1px solid #d9e4e6;
+}
+
+.action-link {
+  background-color: ForestGreen;
+  border-radius: 5px;
+  color: white;
+  padding: .5em 1em;
+  text-decoration: none;
+}
+
+.edit {
+  background-color: #167f92;
+}
+
+.delete {
+  background-color: #921616;
+}
+
+.responstable th {
+  border: 1px solid #fff;
+  background-color: #167f92;
+  color: #fff;
+  padding: 1em;
+}

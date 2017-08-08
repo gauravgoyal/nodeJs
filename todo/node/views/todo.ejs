@@ -2,13 +2,15 @@
 <html>
 <head>
   <title>My Todo App</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 
   <h1>Todo List</h1>
-  <div>
-    <div><a href="/todo/add-task">Add New Task</a></div>
-  <table>
+  <div class="add-new">
+    <div><a class="action-link" href="/todo/add-task">Add New Task</a></div>
+  </div>
+  <table class="responstable">
     <tr>
       <th>Id</th>
       <th>Item</th>
@@ -22,7 +24,7 @@
         <td><%- todo.title %></td>
         <td><%- todo.body %></td>
         <td><%- todo.status %></td>
-        <td><a href="/todo/edit/<%- todo.id %>">Edit </a><a href="/todo/delete/<%- todo.id %>">Delete </a></td>
+        <td><a class="edit action-link" href="/todo/edit/<%- todo.id %>">Edit </a><a class="delete action-link" href="/todo/delete/<%- todo.id %>">Delete </a></td>
         <% }); %>
   </tr>
 </table>

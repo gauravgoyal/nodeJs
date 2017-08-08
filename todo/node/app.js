@@ -7,6 +7,9 @@ var baseUrl = 'http://todolist.dd:8083/';
 
 var app = express();
 
+// serve static assets
+app.use(express.static('public'));
+
 /* Using sessions */
 app.use(session({secret: 'todotopsecret'}))
 
@@ -99,7 +102,11 @@ app.use(session({secret: 'todotopsecret'}))
 
 /* Redirects to the to do list if the page requested is not found */
 .use(function(req, res, next){
+  var value = req.path;
+  var regex = /^\/assets/;
+  if (!regex.test(value)) {
     res.redirect('/todo');
+  }
 })
 
 .listen(8080);
