@@ -1,29 +1,80 @@
 var express = require('express');
-var session = require('cookie-session'); // Loads the piece of middleware for sessions
+var session = require('express-session'); // Loads the piece of middleware for sessions
 var bodyParser = require('body-parser'); // Loads the piece of middleware for managing the settings
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var services = require('./services');
+var crypto = require('crypto');
 var baseUrl = 'http://dev.ggoyal.co.in/';
 
 var app = express();
 
-// serve static assets
-app.use(express.static('public'));
+function genuuid() {
+  return crypto.randomBytes(64).toString('hex');
+}
+
+function validateSession(req, res, next) {
+  if (req.session.user) {
+    next();
+  } else {
+    req.session.error = 'Access denied!';
+    res.redirect('/access-denied');
+  }
+}
 
 /* Using sessions */
-app.use(session({secret: 'todotopsecret'}))
+app.use(session({
+  name: 'session',
+  genid: function(req) {
+    return genuuid() // use UUIDs for session IDs
+  },
+  secret: 'toDonDLGST',
+  saveUninitialized: false,
+  resave: false
+}));
+
+// serve static assets
+app.use(express.static('public'))
 
 
 /* The to do list and the form are displayed */
-.get('/todo', function(req, res) {
-  services.get(baseUrl + 'todo-items', callback);
+.get('/todo', validateSession, function(req, res) {
+  var userData = req.session.user.data;
+  var currentUser = userData.current_user;
+  var uid = currentUser.uid;
+  services.get(baseUrl + 'todo-items/' + uid, callback);
   function callback(todolist, err) {
     res.render('todo.ejs', {todolist: todolist});
   }
 })
 
+.get('/', function(req, res) {
+  res.render('login.ejs');
+})
+
+.get('/logout', function(req, res) {
+  req.session.destroy();
+  res.redirect('/');
+})
+
+.get('/access-denied', function(req, res) {
+  res.render('accessDenied.ejs');
+})
+
+.post('/login', urlencodedParser, function(req, res) {
+  var data = {
+    'name': req.body.name,
+    'pass': req.body.password
+  }
+  services.login(baseUrl, data, callback);
+  function callback(cookie, data) {
+    data.cookie = cookie;
+    req.session.user = {data: data};
+    res.redirect('/todo');
+  }
+})
+
 /* Adding an item to the to do list */
-.post('/todo/add/', urlencodedParser, function(req, res) {
+.post('/todo/add/', validateSession, urlencodedParser, function(req, res) {
   var endpoint = '/entity/node';
   var method = 'POST';
   if (req.body.title) {
@@ -59,7 +110,10 @@ app.use(session({secret: 'todotopsecret'}))
       endpoint = baseUrl + 'node/' + req.body.key + '?_format=hal_json';
       method = 'PATCH';
     }
-    services.createTodo(endpoint, method, data, redirect);
+    var userData = req.session.user.data;
+    var csrf = userData.csrf_token;
+    var userCookie = userData.cookie;
+    services.createTodo(endpoint, method, data, redirect, csrf, userCookie);
   }
   function redirect(data) {
     res.redirect('/todo');
@@ -67,12 +121,12 @@ app.use(session({secret: 'todotopsecret'}))
 
 })
 
-.get('/todo/add-task', function(req, res) {
+.get('/todo/add-task', validateSession, function(req, res) {
   res.render('todoAdd.ejs');
 })
 
 /* Edit an item in the to do list */
-.get('/todo/edit/:id', function(req, res) {
+.get('/todo/edit/:id', validateSession, function(req, res) {
     if (req.params.id != '') {
       services.get(baseUrl + 'node/' + req.params.id, editCallback);
     }
@@ -82,7 +136,7 @@ app.use(session({secret: 'todotopsecret'}))
 })
 
 /* Deletes an item from the to do list */
-.get('/todo/delete/:id', function(req, res) {
+.get('/todo/delete/:id', validateSession, function(req, res) {
   if (req.params.id != '') {
     endpoint = baseUrl + 'node/' + req.params.id + '?_format=hal_json';
     method = 'DELETE';
@@ -93,7 +147,10 @@ app.use(session({secret: 'todotopsecret'}))
         }
       }
     };
-    services.createTodo(endpoint, method, data, redirect);
+    var userData = req.session.user.data;
+    var csrf = userData.csrf_token;
+    var userCookie = userData.cookie;
+    services.createTodo(endpoint, method, data, redirect, csrf, userCookie);
   }
   function redirect() {
     res.redirect('/todo');

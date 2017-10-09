@@ -1,7 +1,4 @@
 var http = require('http');
-var username = 'todo_admin';
-var password = 'admin';
-var auth = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
 
 exports.get = function(get_url, callback) {
   http.get(get_url + '?_format=hal_json', function(res) {
@@ -19,20 +16,21 @@ exports.get = function(get_url, callback) {
   })
   // If any error has occured, log error to console
   .on('error', function(e) {
-    console.log("Got error: " + e.message);
     callback(null, e);
   });
 }
 
-exports.createTodo = function(endpoint, method, data, callback) {
+exports.createTodo = function(endpoint, method, data, callback, csrf, userCookie) {
   var postData = JSON.stringify(data);
   var options = {
-    'host': 'dev.ggoyal.co.in',
-    'path': endpoint,
+    'host': 'todolist.dd',
+    'port': 8083,
+    'path': endpoint + '?_format=hal_json',
     'method': method,
     'headers': {
       '_format': 'hal+json',
-      'Authorization': auth,
+      'cookie': userCookie,
+      'X-CSRF-Token': csrf,
       'Content-Type': 'application/hal+json',
       'Content-Length': postData.length
     }
@@ -50,6 +48,44 @@ exports.createTodo = function(endpoint, method, data, callback) {
       }
       else {
         callback();
+      }
+    })
+  });
+  req.write(postData);
+  req.end();
+}
+
+exports.login = function(baseUrl, data, callback) {
+  var postData = JSON.stringify(data);
+  var options = {
+    'host': 'todolist.dd',
+    'port': 8083,
+    'path': 'http://todolist.dd:8083/user/login?_format=json',
+    'method': 'POST',
+    'headers': {
+      '_format': 'json',
+      'Content-Type': 'application/json',
+      'Content-Length': postData.length,
+      'Accept': 'application/json'
+    }
+  };
+  var req = http.request(options, function(res) {
+    res.setEncoding('utf8');
+    var body = '';
+    res.on('data', function (chunk) {
+      body += chunk;
+    });
+    res.on('end', function(){
+      if (body) {
+        responseCookies = res.headers['set-cookie'];
+        var requestCookies='';
+        for(var i=0; i<responseCookies.length; i++){
+          var oneCookie = responseCookies[i];
+          oneCookie = oneCookie.split(';');
+          requestCookies = requestCookies + oneCookie[0]+';';
+        }
+        var parsed = JSON.parse(body);
+        callback(requestCookies, parsed);
       }
     })
   });
