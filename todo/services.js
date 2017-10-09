@@ -1,4 +1,5 @@
 var http = require('http');
+var host = 'dev.ggoyal.co.in';
 
 exports.get = function(get_url, callback) {
   http.get(get_url + '?_format=hal_json', function(res) {
@@ -23,9 +24,8 @@ exports.get = function(get_url, callback) {
 exports.createTodo = function(endpoint, method, data, callback, csrf, userCookie) {
   var postData = JSON.stringify(data);
   var options = {
-    'host': 'todolist.dd',
-    'port': 8083,
-    'path': endpoint + '?_format=hal_json',
+    'host': host,
+    'path': endpoint,
     'method': method,
     'headers': {
       '_format': 'hal+json',
@@ -58,9 +58,8 @@ exports.createTodo = function(endpoint, method, data, callback, csrf, userCookie
 exports.login = function(baseUrl, data, callback) {
   var postData = JSON.stringify(data);
   var options = {
-    'host': 'todolist.dd',
-    'port': 8083,
-    'path': 'http://todolist.dd:8083/user/login?_format=json',
+    'host': host,
+    'path': baseUrl + 'user/login?_format=json',
     'method': 'POST',
     'headers': {
       '_format': 'json',

@@ -25,6 +25,14 @@ h2 {
   margin-bottom: 8px;
 }
 
+.edit {
+  background-color: #167f92;
+}
+
+.delete {
+  background-color: #921616;
+}
+
 .form-style-5 input,
 .form-style-5 textarea {
   background: rgba(255,255,255,.1);
@@ -84,4 +92,12 @@ h2 {
   color: white;
   padding: .5em 1em;
   text-decoration: none;
+}
+
+.edit {
+  background-color: #167f92;
+}
+
+.delete {
+  background-color: #921616;
 }
