@@ -16,17 +16,18 @@ class Meetupgrid extends Component {
   }
 
   createURL() {
+    let proxy_url = 'https://cors-anywhere.herokuapp.com/';
     let app_key = "nV8cJ95kVwdcVQH2";
     let where = this.props.coordinates.latitude + "," + this.props.coordinates.longitude;
     let page_number = this.state.page;
     let category = this.props.category;
-    let baseURL = "http://api.eventful.com/json/events/search";
-    let finalURL = baseURL + "?"
+    let baseURL = "https://api.eventful.com/json/events/search";
+    let finalURL = proxy_url + baseURL + "?"
       + "app_key=" + app_key
       + "&where=" + where
       + "&page_number=" + page_number
       + "&cateogory=" + category
-      + "page_size=32&sort_direction=descending";
+      + "&date=Future&sort_order=date&within=30&page_size=32&sort_direction=ascending";
     return finalURL;
   }
 
@@ -125,11 +126,7 @@ class Meetupgrid extends Component {
                 <div key={ item.id } className="col-md-4 m-b-lg">
                 <Meetupcard
                   image = { item.image !== null ? item.image.medium.url : 'http://www.pixesocial.com/custom/images/pixe-event-marketer-icon.png' }
-                  title = { item.title }
-                  link = { item.url }
-                  city_name = { item.city_name }
-                  country_name = { item.country_name }
-                  venue_address = { item.venue_address }
+                  event = { item }
                   custom_class = { index % 2 === 0 ? 'even' : 'odd' }
                 ></Meetupcard>
                 </div>

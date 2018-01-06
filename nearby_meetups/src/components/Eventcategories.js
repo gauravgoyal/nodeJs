@@ -11,7 +11,10 @@ class Eventcategories extends Component {
   }
 
   componentDidMount() {
-    fetch("http://api.eventful.com/json/categories/list?app_key=nV8cJ95kVwdcVQH2&sign=true")
+    let proxy_url = 'https://cors-anywhere.herokuapp.com/';
+    let baseURL = "https://api.eventful.com/json/categories/list";
+    let finalURL = proxy_url + baseURL + "?app_key=nV8cJ95kVwdcVQH2&sign=true";
+    fetch(finalURL)
       .then(res => res.json())
       .then(
         (result) => {
