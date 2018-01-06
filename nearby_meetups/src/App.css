@@ -175,7 +175,14 @@ body {
 }
 
 .event-address {
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
   margin-top: 15px !important;
+}
+
+.rangeslider.rangeslider-horizontal {
+  margin: 12px 0 !important;
+}
+
+footer {
+  width: 200px;
+  margin: 0 auto;
 }

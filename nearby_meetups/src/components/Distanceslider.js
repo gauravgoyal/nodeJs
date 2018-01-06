@@ -6,14 +6,19 @@ class Distanceslider extends Component {
   constructor (props, context) {
     super(props, context)
     this.state = {
-      reverseValue: 0
+      reverseValue: 10
     }
+    this.handleChangeComplete = this.handleChangeComplete.bind(this);
   }
 
   handleChangeReverse = (value) => {
     this.setState({
       reverseValue: value
     })
+  }
+
+  handleChangeComplete = (value) => {
+    this.props.onSliderStop(this.state.reverseValue);
   }
 
   render () {
@@ -28,8 +33,9 @@ class Distanceslider extends Component {
               value={reverseValue}
               orientation='horizontal'
               onChange={this.handleChangeReverse}
+              onChangeComplete={this.handleChangeComplete}
             />
-            <div className='value'>{reverseValue}</div>
+            <p><b>Current Radius:</b> {reverseValue} KM. <small>Please use slider to change the radius to search for events.</small></p>
           </div>
         </div>
       </div>

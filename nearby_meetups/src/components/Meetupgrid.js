@@ -21,18 +21,20 @@ class Meetupgrid extends Component {
     let where = this.props.coordinates.latitude + "," + this.props.coordinates.longitude;
     let page_number = this.state.page;
     let category = this.props.category;
+    let radius = this.props.radius;
     let baseURL = "https://api.eventful.com/json/events/search";
     let finalURL = proxy_url + baseURL + "?"
       + "app_key=" + app_key
       + "&where=" + where
       + "&page_number=" + page_number
-      + "&cateogory=" + category
-      + "&date=Future&sort_order=date&within=30&page_size=32&sort_direction=ascending";
+      + "&category=" + category
+      + "&within=" + radius
+      + "&date=Future&sort_order=date&page_size=32&sort_direction=ascending";
     return finalURL;
   }
 
   onScroll() {
-    if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 300)) {
+    if ((this.state.page !== 'done') &&(window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 300)) {
       if (!this.state.paging) {
         this.setState((prevState) => ({
           paging: true,
@@ -44,7 +46,8 @@ class Meetupgrid extends Component {
           (result) => {
             if (result.events === null) {
               this.setState({
-                paging: true
+                paging: true,
+                page: 'done'
               });
             }
             else {
@@ -66,7 +69,7 @@ class Meetupgrid extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.category !== prevProps.category) {
+    if (this.props.category !== prevProps.category || this.props.radius !== prevProps.radius) {
       fetch(this.createURL())
       .then(res => res.json())
       .then(
@@ -117,12 +120,13 @@ class Meetupgrid extends Component {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div className="loader"></div>;
-    } else {
+    }
+    else {
       return (
         <div className="row row-bordered row-centered">
           <div className="col-sm-12">
             <div className="row">
-              {events.map((item, index) => (
+              { events.map((item, index) => (
                 <div key={ item.id } className="col-md-4 m-b-lg">
                 <Meetupcard
                   image = { item.image !== null ? item.image.medium.url : 'http://www.pixesocial.com/custom/images/pixe-event-marketer-icon.png' }
@@ -133,7 +137,7 @@ class Meetupgrid extends Component {
               ))}
             </div>
           </div>
-          { this.state.paging ? (<div className="loader"></div>) : ''}
+          { (this.state.paging) && (this.state.page !== 'done') ? (<div className="loader"></div>) : ''}
         </div>
       );
     }

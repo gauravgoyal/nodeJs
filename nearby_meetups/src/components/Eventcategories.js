@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Distanceslider from './Distanceslider.js';
 
 class Eventcategories extends Component {
   constructor (props) {
@@ -47,11 +48,17 @@ class Eventcategories extends Component {
           <div className="form-group row">
             <label className="col-sm-2 col-form-label form-check-label">Select Category:</label>
             <div className="col-sm-4">
-              <select className="form-control" onChange={ this.props.onChange }>
+              <select defaultValue='' className="form-control" onChange={ this.props.onChange }>
+                <option key="select-all" value=''>-- Please select an option --</option>
                 {categories.map((category, index) => (
                   <option key={ category.id } value={ category.id }>{ category.name }</option>
                 ))}
               </select>
+            </div>
+            <div className="col-sm-6">
+              <Distanceslider
+                onSliderStop = { this.props.onRadiusSelect }
+              />
             </div>
           </div>
         </form>
