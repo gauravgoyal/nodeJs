@@ -53,11 +53,11 @@ class App extends Component {
               coordinates = { this.props.coords }
               /> :
             this.props.isGeolocationEnabled ?
-              <div>Please wait while we fetch your location and show you nearby events...</div>:
-              <div>Please allow browser to detect your location.</div>
+              <p class="lead">Please wait while we fetch your location and show you nearby events...</p>:
+              <p class="lead">Please allow browser to detect your location.</p>
           }
         </div>
-        <footer>
+        <footer className="p-4">
           <div class="eventful-badge eventful-small">
             <img src="http://api.eventful.com/images/powered/eventful_58x20.gif"
               alt="Local Events, Concerts, Tickets" />

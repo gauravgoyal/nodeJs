@@ -29,7 +29,7 @@ class Meetupgrid extends Component {
       + "&page_number=" + page_number
       + "&category=" + category
       + "&within=" + radius
-      + "&date=Future&sort_order=date&page_size=32&sort_direction=ascending";
+      + "&date=Future&mature=normal&sort_order=date&page_size=60&sort_direction=ascending";
     return finalURL;
   }
 
@@ -70,13 +70,17 @@ class Meetupgrid extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.category !== prevProps.category || this.props.radius !== prevProps.radius) {
+      this.setState({
+        page: 1,
+        isLoaded: false
+      })
       fetch(this.createURL())
       .then(res => res.json())
       .then(
         (result) => {
           this.setState({
             isLoaded: true,
-            events: result.events.event
+            events: (result.events !== null ? result.events.event : [])
           });
         },
         (error) => {
@@ -97,7 +101,7 @@ class Meetupgrid extends Component {
         (result) => {
           this.setState({
             isLoaded: true,
-            events: result.events.event
+            events: (result.events !== null ? result.events.event : [])
           });
         },
         (error) => {
@@ -120,6 +124,9 @@ class Meetupgrid extends Component {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div className="loader"></div>;
+    }
+    else if (events.length === 0) {
+      return <p class="lead">Sorry, we could not find any events in your area for the selected category. Please select another category or increase the radius!</p>;
     }
     else {
       return (
